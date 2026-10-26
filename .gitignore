@@ -218,3 +218,21 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Research
+papers/
+research/
+
+# Claude
+CLAUDE.md
+
+# Project-specific
+data/
+checkpoints/
+runs/
+wandb/
+*.pt
+*.safetensors
+.ruff_cache/
+.mypy_cache/
+.DS_Store
