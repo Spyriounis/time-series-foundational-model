@@ -222,9 +222,16 @@ __marimo__/
 # Research
 papers/
 research/
+books/
+NOTES.txt
 
 # Claude
 CLAUDE.md
+
+# Agent instructions (reviewer, writer), review logs and copyrighted books
+agents/
+books/
+studying/
 
 # Project-specific
 data/
