@@ -231,6 +231,7 @@ CLAUDE.md
 # Agent instructions (reviewer, writer), review logs and copyrighted books
 agents/
 books/
+studying/
 
 # Project-specific
 data/
