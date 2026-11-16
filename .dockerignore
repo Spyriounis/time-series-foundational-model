@@ -1,4 +1,5 @@
 .git
+.env
 .github
 .venv
 **/__pycache__
@@ -9,6 +10,12 @@
 .pre-commit-config.yaml
 papers
 research
+articles
+agents
+books
+studying
+NOTES.txt
+CLAUDE.md
 data
 checkpoints
 runs

@@ -10,7 +10,20 @@ dependencies = [
     "pandas>=3.1.0",
     "scikit-learn>=1.9.1",
     "matplotlib>=3.11.2",
+    "structlog>=26.1.0",
+    "httpx>=0.28.1",
+    "tenacity>=9.2.1",
+    "pyarrow>=26.0.1",
+    "duckdb>=2.0.0",
+    "typer>=0.29.1",
+    "pydantic-settings>=2.16.2",
+    "openpyxl>=3.1.5",
+    "xlrd>=2.0.2",
+    "scipy>=1.18.1",
 ]
+
+[project.scripts]
+tsfm = "tsfm.cli.app:app"
 
 [dependency-groups]
 dev = [
@@ -21,6 +34,9 @@ dev = [
     "numpydoc", # docstring validation; ruff cannot check for a missing Returns/Yields section
     "ipykernel>=7.4.0",
     "nbclient>=0.11.0",
+    "pyarrow-stubs>=20.0.0.20260819",
+    "pandas-stubs>=3.1.0.261029",
+    "scipy-stubs>=1.18.1.1",
 ]
 
 [[tool.uv.index]]
@@ -65,7 +81,8 @@ convention = "numpy"
 
 [tool.ruff.lint.per-file-ignores]
 # A test's name is its summary and its parameters are fixtures; full numpydoc there is ceremony.
-"tests/**" = ["S101", "D"]
+# S106: fixtures pass dummy credentials.
+"tests/**" = ["S101", "S106", "D"]
 "notebooks/**" = ["S101"]
 
 [tool.ruff.format]
@@ -95,3 +112,29 @@ ignore_missing_imports = true # tolerate third-party libs lacking type stubs
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+# Live tests call the real services and need `.env`; run them with `make test-live`.
+addopts = "-m 'not live'"
+markers = ["live: calls a real data source"]
+
+# What the editor (Pylance) and `uvx pyright` check: strict, as in the editor's own setting.
+[tool.pyright]
+include = ["src", "tests"]
+typeCheckingMode = "strict"
+venvPath = "."
+venv = ".venv"
+# pyarrow-stubs and pandas-stubs leave some keyword arguments untyped, which strict mode
+# reports at every call of those functions.
+reportUnknownMemberType = false
+
+# Tests import `helpers` as pytest does, from their own directory. Their fixture arguments are
+# unannotated and they reach into private helpers, so the rules that demand otherwise are off.
+[[tool.pyright.executionEnvironments]]
+root = "tests"
+extraPaths = ["src", "tests"]
+reportMissingParameterType = false
+reportUnknownParameterType = false
+reportUnknownArgumentType = false
+reportUnknownVariableType = false
+reportUnknownLambdaType = false
+reportMissingTypeArgument = false
+reportPrivateUsage = false
